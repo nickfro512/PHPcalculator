@@ -36,16 +36,16 @@ else
 
 if (isset($_POST['keystroke']))
 {
-	$the_calculator->processKeystroke($_POST['keystroke']);
+	$the_calculator->process_keystroke($_POST['keystroke']);
 }
 
-$str_input_array = json_encode($the_calculator->getInputArray());
-$str_current_entry = json_encode($the_calculator->getCurrentEntry());
+$str_input_array = json_encode($the_calculator->get_input_array());
+$str_current_entry = json_encode($the_calculator->get_current_entry());
 
-if (isset($the_calculator->getCurrentEntry()['current_digits']))
+if (isset($the_calculator->get_current_entry()['current_digits']))
 {
-	$display = $the_calculator->getCurrentEntry()['current_digits'];
-	if ($the_calculator->getCurrentEntry()['digit_counter'] > 7)
+	$display = $the_calculator->get_current_entry()['current_digits'];
+	if ($the_calculator->get_current_entry()['digit_counter'] > 7)
 	{
 		print "<br>MAX DIGITS<br>";
 	}
@@ -97,8 +97,6 @@ print '	<!DOCTYPE html>
 						<input type="submit" value="eq" name="keystroke">
 						<br>
 						<br>
-						<br>
-						<br>
 						<input type="submit" value="RESET" name="the_submit">
 
 					</div>
@@ -131,11 +129,11 @@ class Calculator
 		}
 		else
 		{
-			$this->_resetCurrentEntry();
+			$this->reset_current_entry();
 		}
 	}
 
-	public function processKeystroke($keystroke)
+	public function process_keystroke($keystroke)
 	{
 		$arr_arth_ops = array(	self::OPERATION_ADD,
 								self::OPERATION_SUB,
@@ -147,8 +145,8 @@ class Calculator
 		{
 			$this->input_array[] = $this->current_entry_array['current_digits'];
 			$result = $this->_equals();		// perform the entered operation and set it as the new display
-			$this->_resetInputArray();
-			$this->_resetCurrentEntry($result, $this->current_entry_array['digit_counter'] + 1);	
+			$this->reset_input_array();
+			$this->reset_current_entry($result, $this->current_entry_array['digit_counter'] + 1);	
 		}
 		else if ($keystroke == self::KEY_DEC) // place decimal point after last numeral
 		{
@@ -166,7 +164,7 @@ class Calculator
 		{
 			$this->input_array[] = $this->current_entry_array['current_digits'];
 			$this->input_array[] = $keystroke;
-			$this->_resetCurrentEntry();
+			$this->reset_current_entry();
 		}
 		else if (is_numeric($keystroke)) // numeral
 		{
@@ -181,7 +179,7 @@ class Calculator
 			
 				if ($divisor > 0)
 				{
-					$fraction = number_format(	(((float) $keystroke) / $divisor), $precision);	// limit number formatting to current number of decimal places
+					$fraction = number_format((((float) $keystroke) / $divisor), $precision);	// limit number formatting to current number of decimal places
 					$this->current_entry_array['current_digits'] = number_format(((float) $this->current_entry_array['current_digits'] + $fraction), $precision);
 				}
 			}
@@ -190,12 +188,12 @@ class Calculator
 		}
 	}
 
-	private function _resetCurrentEntry($prefill_digits = 0, $init_digit_counter = 0)
+	private function reset_current_entry($prefill_digits = 0, $init_digit_counter = 0)
 	{
 		$this->current_entry_array = array("current_digits" => $prefill_digits, "digit_counter" => $init_digit_counter, "decimal_place" => null);
 	}
 
-	private function _resetInputArray($prefill_inputs = array())
+	private function reset_input_array($prefill_inputs = array())
 	{
 		$this->input_array = $prefill_inputs;
 	}
@@ -206,11 +204,7 @@ class Calculator
 		{
 			$this->input_array = $starting_input_array;
 		}
-		else
-		{
-			//$this->input_array = array(5,"add",4);
-		}
-
+		
 		$calculation = null;
 		$left_num = null;
 		$right_num =  null;
@@ -286,12 +280,12 @@ class Calculator
 	}
 
 
-	public function getInputArray()
+	public function get_input_array()
 	{
 		return $this->input_array;
 	}
 
-	public function getCurrentEntry()
+	public function get_current_entry()
 	{
 		return $this->current_entry_array;
 	}
