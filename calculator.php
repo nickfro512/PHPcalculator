@@ -5,11 +5,9 @@
 	nickfro@gmail.com github.com/nickfro512
 ===========================================
 
-8 digit calculator all in one PHP file.
+8 digit calculator all in one file with just PHP and minimal HTML.
 
-Awful UI for testing purposes only sorry!
-
-Roughly reporduces digital calculator input. Known bug is that after you hit an operation it displays 0 instead of still displaying last entry like calculator usually would.
+Very basic calculator app.
 
 buttons are:
 add (+), sub (-), mul (*), div (/) - enter between numerals, then hit "eq" button for answer
@@ -55,7 +53,7 @@ else
 	$display = "_";
 }
 										
-
+// Barebones UI for testing purposes
 print '	<!DOCTYPE html>
 		<html>
 			<body>
